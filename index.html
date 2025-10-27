@@ -361,6 +361,31 @@
       .opacity-0 {
         opacity: 0;
       }
+
+      /* Toast styles */
+      #toastContainer {
+        position: fixed;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .toast {
+        background: rgba(51, 51, 51, 0.9);
+        color: #fff;
+        padding: 0.75rem 1.25rem;
+        border-radius: 9999px;
+        font-weight: 500;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideInUp 0.3s forwards, fadeOut 0.3s forwards 2.7s;
+        z-index: 99999;
+      }
     </style>
     <!-- <?!= include('script'); ?> -->
   </head>
@@ -922,54 +947,6 @@
         Booking failed. Please try again.
       </div>
 
-      <!-- PRICING & OTHER SECTIONS (kept largely similar) -->
-      <!-- <section id="pricing" class="py-12 px-4 bg-gray-50">
-      <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-8">
-          <h2 class="text-2xl font-bold mb-2">Pricing Plans</h2>
-          <p class="text-gray-600">Transparent pricing with no hidden fees</p>
-        </div>
-        <div class="table-scroll bg-white rounded-xl shadow overflow-hidden">
-          <table class="w-full text-left">
-            <thead class="bg-blue-600 text-white">
-              <tr>
-                <th class="px-6 py-3">Service</th>
-                <th class="px-6 py-3">What's Included</th>
-                <th class="px-6 py-3">Duration</th>
-                <th class="px-6 py-3">Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b">
-                <td class="px-6 py-4 font-semibold">Basic Wash</td>
-                <td class="px-6 py-4 text-gray-600">Exterior wash, rinse, dry</td>
-                <td class="px-6 py-4">15 minutes</td>
-                <td class="px-6 py-4 font-bold text-blue-600">$25</td>
-              </tr>
-              <tr class="border-b">
-                <td class="px-6 py-4 font-semibold">Premium Wash</td>
-                <td class="px-6 py-4 text-gray-600">Exterior wash, wax, interior vacuum</td>
-                <td class="px-6 py-4">30 minutes</td>
-                <td class="px-6 py-4 font-bold text-blue-600">$45</td>
-              </tr>
-              <tr class="border-b">
-                <td class="px-6 py-4 font-semibold">Deluxe Detail</td>
-                <td class="px-6 py-4 text-gray-600">Full wash, wax, interior detail</td>
-                <td class="px-6 py-4">60 minutes</td>
-                <td class="px-6 py-4 font-bold text-blue-600">$85</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 font-semibold">VIP Package</td>
-                <td class="px-6 py-4 text-gray-600">Complete detailing, paint protection</td>
-                <td class="px-6 py-4">90 minutes</td>
-                <td class="px-6 py-4 font-bold text-blue-600">$150</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section> -->
-
       <section
         class="py-20 px-6 bg-secondary text-white relative floating-bubbles"
       >
@@ -983,9 +960,6 @@
             Book your appointment today and experience the Sparkles Mount
             Ommaney difference
           </p>
-          <!-- <button class="bg-blue-600 text-white  px-8 py-4 !rounded-button font-semibold text-lg whitespace-nowrap opacity-0 animate-fade-in-up stagger-2 hover:scale-105 transition-all duration-300 hover:shadow-xl">
-        Book Online Now
-        </button> -->
           <a
             href="#booking"
             class="btn hidden md:inline-block bg-blue-600 text-white px-4 py-2 !rounded-button font-semibold hover:scale-105"
@@ -994,19 +968,6 @@
         </div>
       </section>
 
-      <!-- LOCATION & FOOTER -->
-      <!-- <section id="location" class="py-12 px-4 bg-white">
-      <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8">
-        <div>
-          <h3 class="text-2xl font-semibold mb-3">Find Us</h3>
-          <p class="text-gray-600 mb-4">171 Dandenong Road, Mount Ommaney QLD 4074, Australia</p>
-          <p class="text-gray-600">Phone: +61 2 9876 5432</p>
-        </div>
-        <div class="h-64 rounded-2xl overflow-hidden bg-gray-200"
-          style="background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png'); background-size: cover; background-position: center;">
-        </div>
-      </div>
-    </section> -->
       <section id="location" class="py-20 px-6 bg-white">
         <div class="max-w-6xl mx-auto">
           <div class="text-center mb-16">
@@ -1137,16 +1098,6 @@
     </button>
 
     <script>
-      // Call server functions when DOM is loaded
-      document.addEventListener("DOMContentLoaded", function () {
-        google.script.run
-          .withSuccessHandler(populateVehicleTypes)
-          .getVehicleTypes();
-        google.script.run
-          .withSuccessHandler(populateServicePackages)
-          .getServicePackages();
-      });
-
       // Initialize Swiper
       const swiper = new Swiper(".mySwiper", {
         loop: true,
@@ -1189,60 +1140,6 @@
         window.scrollTo({ top: 0, behavior: "smooth" })
       );
 
-      // Booking form submit -> google.script.run
-      const form = document.getElementById("booking-form");
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const submitBtn = document.getElementById("submit-btn");
-        const spinner = document.getElementById("submit-spinner");
-        const submitText = document.getElementById("submit-text");
-        const toastSuccess = document.getElementById("toast-success");
-        const toastFail = document.getElementById("toast-fail");
-
-        submitBtn.disabled = true;
-        spinner.classList.remove("hidden");
-
-        const data = Object.fromEntries(new FormData(form).entries());
-        // console.log(data);
-        // Basic client-side validation example
-        if (!data["full_name"] || !data["phone-number"]) {
-          alert("Please fill name and phone number.");
-          submitBtn.disabled = false;
-          spinner.classList.add("hidden");
-          return;
-        }
-
-        google.script.run
-          .withSuccessHandler((res) => {
-            spinner.classList.add("hidden");
-            submitBtn.disabled = false;
-            if (res && res.success) {
-              submitText.innerText = "Booked ✓";
-              form.reset();
-              setTimeout(() => (submitText.innerText = "Book Now"), 3000);
-              showToast(toastSuccess);
-            } else {
-              showToast(toastFail);
-            }
-          })
-          .withFailureHandler((err) => {
-            spinner.classList.add("hidden");
-            submitBtn.disabled = false;
-            console.error(err);
-            alert("An error occurred. Please try again later.");
-          })
-          .saveBooking(data);
-      });
-
-      function showToast(toastEl) {
-        toastEl.classList.remove("hidden");
-        toastEl.classList.add("animate-fade-in-up");
-        setTimeout(() => {
-          toastEl.classList.add("hidden");
-          toastEl.classList.remove("animate-fade-in-up");
-        }, 3000);
-      }
-
       // Mobile menu toggle
       const mobileBtn = document.getElementById("mobile-menu-btn");
       mobileBtn &&
@@ -1258,33 +1155,6 @@
         const mapsUrl =
           "https://www.google.com/maps/dir/?api=1&destination=171 Dandenong Road, Mount Ommaney QLD 4074, Australia";
         window.open(mapsUrl, "_blank");
-      }
-
-      // Populate Vehicle Type dropdown
-      function populateVehicleTypes(types) {
-        const vehicleSelect = document.getElementById("vehicle-type");
-        vehicleSelect.innerHTML =
-          '<option value="">Select vehicle type</option>';
-        types.forEach((type) => {
-          const opt = document.createElement("option");
-          opt.value = type;
-          opt.textContent = type;
-          vehicleSelect.appendChild(opt);
-        });
-      }
-
-      // Populate Service Package dropdown
-      function populateServicePackages(services) {
-        // console.log(services);
-        const serviceSelect = document.getElementById("service-package");
-        serviceSelect.innerHTML =
-          '<option value="">Select service package</option>';
-        services.forEach((svc) => {
-          const opt = document.createElement("option");
-          opt.value = svc;
-          opt.textContent = svc;
-          serviceSelect.appendChild(opt);
-        });
       }
 
       // Service Worker registration
