@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Sandeeps — Smoothies & Snacks</title>
+  <title>Sparkles Mount Ommaney</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
-  <meta name="theme-color" content="#F8EDEB">
+  <meta name="theme-color" content="#fcce09">
   <style>body{font-family:system-ui,Arial,sans-serif;margin:0;padding:0}</style>
 
 <!-- iOS PWA support -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Sandeeps">
+<meta name="apple-mobile-web-app-title" content="Sparkles">
 <link rel="apple-touch-icon" href="icons/web-app-manifest-512x512.png">
 
 </head>
@@ -39,7 +39,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
   const installBtn = document.createElement('button');
-  installBtn.textContent = 'Install Sandeeps App';
+  installBtn.textContent = 'Install Sparkles App';
   installBtn.style = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 16px;font-size:16px;border:none;border-radius:8px;background:#FF8A65;color:white;z-index:9999;';
   document.body.appendChild(installBtn);
   installBtn.addEventListener('click', async () => {
@@ -54,7 +54,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 if (navigator.userAgent.match(/iphone|ipad|ipod/i)) {
   console.log('iOS detected: show Add to Home Screen hint.');
   setTimeout(() => {
-    alert('To install Sandeeps, tap the Share icon (⬆️) then “Add to Home Screen”.');
+    alert('To install Sparkles, tap the Share icon (⬆️) then “Add to Home Screen”.');
   }, 2000);
 }
 </script>
