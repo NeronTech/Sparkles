@@ -1,63 +1,76 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Sparkles Mount Ommaney</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
-  <meta name="theme-color" content="#fcce09">
-  <style>body{font-family:system-ui,Arial,sans-serif;margin:0;padding:0}</style>
+  <head>
+    <meta charset="utf-8" />
+    <title>Sparkles Mount Ommaney</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="icons/favicon-16x16.png" type="image/png" />
+    <meta name="theme-color" content="#fcce09" />
+    <style>
+      body {
+        font-family: system-ui, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
 
-<!-- iOS PWA support -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Sparkles">
-<link rel="apple-touch-icon" href="icons/web-app-manifest-512x512.png">
+    <!-- iOS PWA support -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Sparkles" />
+    <link rel="apple-touch-icon" href="icons/ios/512.png" />
+  </head>
+  <body class="m-0 p-0 h-screen overflow-hidden bg-white text-gray-900">
+    <!-- Fullscreen iframe -->
+    <iframe
+      src="https://script.google.com/a/~/macros/s/AKfycbxNSH10hbqT6PR3maO9VFoCG_huLf19TSxSM7FskuHAUcjK0DBLoECIj8JCQ5fpIq3Bxw/exec"
+      class="w-full h-full border-0"
+      style="overflow-x: hidden"
+    >
+    </iframe>
 
-</head>
-<body class="m-0 p-0 h-screen overflow-hidden bg-white text-gray-900">
-  <!-- Fullscreen iframe -->
-  <iframe 
-    src="https://script.google.com/a/~/macros/s/AKfycbxnh-zWPW95Z2VjC_aAbYnnRvHRaJwsnF0U74wh36yqXQt8ZfxMCItjd44lSoHgzd1H/exec"
-    class="w-full h-full border-0" style="overflow-x: hidden;">
-  </iframe>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/service-worker.js")
+          .then((reg) => console.log("Service Worker registered:", reg.scope))
+          .catch((err) => console.warn("SW registration failed:", err));
+      }
+    </script>
 
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
-    .then(reg => console.log('Service Worker registered:', reg.scope))
-    .catch(err => console.warn('SW registration failed:', err));
-}
-</script>
-
-<!-- Tailwind CDN -->
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  const installBtn = document.createElement('button');
-  installBtn.textContent = 'Install Sparkles App';
-  installBtn.style = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 16px;font-size:16px;border:none;border-radius:8px;background:#FF8A65;color:white;z-index:9999;';
-  document.body.appendChild(installBtn);
-  installBtn.addEventListener('click', async () => {
-    installBtn.remove();
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log('User response to install:', outcome);
-    deferredPrompt = null;
-  });
-});
-// Optional iOS hint
-if (navigator.userAgent.match(/iphone|ipad|ipod/i)) {
-  console.log('iOS detected: show Add to Home Screen hint.');
-  setTimeout(() => {
-    alert('To install Sparkles, tap the Share icon (⬆️) then “Add to Home Screen”.');
-  }, 2000);
-}
-</script>
-
-</body>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      let deferredPrompt;
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        const installBtn = document.createElement("button");
+        installBtn.textContent = "Install Sparkles App";
+        installBtn.style =
+          "position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 16px;font-size:16px;border:none;border-radius:8px;background:#FF8A65;color:white;z-index:9999;";
+        document.body.appendChild(installBtn);
+        installBtn.addEventListener("click", async () => {
+          installBtn.remove();
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log("User response to install:", outcome);
+          deferredPrompt = null;
+        });
+      });
+      // Optional iOS hint
+      if (navigator.userAgent.match(/iphone|ipad|ipod/i)) {
+        console.log("iOS detected: show Add to Home Screen hint.");
+        setTimeout(() => {
+          alert(
+            "To install Sparkles, tap the Share icon (⬆️) then “Add to Home Screen”."
+          );
+        }, 2000);
+      }
+    </script>
+  </body>
 </html>
