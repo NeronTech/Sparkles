@@ -10,52 +10,1290 @@
 
     <!-- iOS PWA support -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
     <meta name="apple-mobile-web-app-title" content="Sparkles" />
     <link rel="apple-touch-icon" href="icons/512.png" />
 
+    <!-- Tailwind CDN for quick prototyping -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Remix Icon -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <!-- Swiper for hero slider -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
     <style>
+      /* Custom animations used in the design */
+      @keyframes fade-in-up {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fade-in-up {
+        animation: fade-in-up 0.7s ease forwards;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(-6px);
+        }
+
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      .animate-float {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes bounce-slow {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      .animate-bounce-slow {
+        animation: bounce-slow 1.8s infinite;
+      }
+
+      .hover-lift:hover {
+        transform: translateY(-6px);
+        transition: transform 0.25s ease;
+      }
+
+      . !rounded-button {
+        border-radius: 1rem;
+      }
+
+      /* loading spinner */
+      .loading-spinner {
+        border: 3px solid rgba(255, 255, 255, 0.25);
+        border-top: 3px solid rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        animation: spin 0.9s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* small responsive tweaks */
+      header.sticky-header {
+        backdrop-filter: blur(6px);
+        background: rgba(255, 255, 255, 0.6);
+      }
+
+      /* make table horizontally scroll on small screens */
+      .table-scroll {
+        overflow-x: auto;
+      }
+
+      /* make hero images cover */
+      .hero-slide {
+        background-size: cover;
+        background-position: center;
+      }
+
+      .bname {
+        color: #005aab;
+      }
+
+      /* Floating Bubbles */
+      :where([class^="ri-"])::before {
+        content: "\f3c2";
+      }
+
       body {
-        font-family: system-ui, Arial, sans-serif;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        background: white;
-        color: #333;
-        text-align: center;
+        font-family: "Inter", sans-serif;
       }
-      button {
-        background: linear-gradient(to right, #fcce09, #ff8a65);
-        border: none;
-        color: white;
-        font-size: 16px;
-        padding: 12px 24px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: 0.2s ease;
+
+      .logo-font {
+        font-family: "Pacifico", serif;
       }
-      button:hover {
-        opacity: 0.9;
+
+      .animate-bounce-slow {
+        animation: bounce 2s infinite;
+      }
+
+      .animate-pulse-gentle {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+
+      .animate-fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+      }
+
+      .animate-fade-in-left {
+        animation: fadeInLeft 1s ease-out forwards;
+      }
+
+      .animate-fade-in-right {
+        animation: fadeInRight 1s ease-out forwards;
+      }
+
+      .animate-slide-up {
+        animation: slideUp 0.8s ease-out forwards;
+      }
+
+      .animate-count-up {
+        animation: countUp 2s ease-out forwards;
+      }
+
+      .animate-float {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      .animate-rotate-slow {
+        animation: rotateSlow 4s linear infinite;
+      }
+
+      .parallax-bg {
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .glass-effect {
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .hover-lift {
+        transition: all 0.3s ease;
+      }
+
+      .hover-lift:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .input-focus {
+        transition: all 0.3s ease;
+      }
+
+      .input-focus:focus {
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        border-color: #2563eb;
+      }
+
+      .floating-bubbles {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .floating-bubbles::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="30" cy="150" r="3" fill="%23FCD34D" opacity="0.4"><animate attributeName="cy" values="150;-10;150" dur="4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.4;0.8;0.4" dur="4s" repeatCount="indefinite"/></circle><circle cx="80" cy="180" r="2" fill="%232563EB" opacity="0.3"><animate attributeName="cy" values="180;-20;180" dur="6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.3;0.7;0.3" dur="6s" repeatCount="indefinite"/></circle><circle cx="150" cy="170" r="2.5" fill="%23FCD34D" opacity="0.5"><animate attributeName="cy" values="170;-15;170" dur="5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0.9;0.5" dur="5s" repeatCount="indefinite"/></circle><circle cx="60" cy="160" r="1.5" fill="%232563EB" opacity="0.3"><animate attributeName="cy" values="160;-10;160" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.3;0.6;0.3" dur="7s" repeatCount="indefinite"/></circle><circle cx="120" cy="190" r="2" fill="%23FCD34D" opacity="0.4"><animate attributeName="cy" values="190;-25;190" dur="5.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.4;0.8;0.4" dur="5.5s" repeatCount="indefinite"/></circle><circle cx="40" cy="200" r="1" fill="%232563EB" opacity="0.2"><animate attributeName="cy" values="200;-15;200" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.2;0.5;0.2" dur="8s" repeatCount="indefinite"/></circle></svg>')
+          repeat-x;
+        background-size: 200px 200px;
+        pointer-events: none;
+        animation: bubbleFloat 20s linear infinite;
+      }
+
+      .floating-bubbles::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 250"><circle cx="200" cy="220" r="2.5" fill="%23FCD34D" opacity="0.3"><animate attributeName="cy" values="220;-30;220" dur="9s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.3;0.7;0.3" dur="9s" repeatCount="indefinite"/></circle><circle cx="100" cy="240" r="1.8" fill="%232563EB" opacity="0.4"><animate attributeName="cy" values="240;-20;240" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.4;0.8;0.4" dur="7s" repeatCount="indefinite"/></circle><circle cx="170" cy="210" r="1.2" fill="%23FCD34D" opacity="0.5"><animate attributeName="cy" values="210;-25;210" dur="6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0.9;0.5" dur="6s" repeatCount="indefinite"/></circle></svg>')
+          repeat-x;
+        background-size: 250px 250px;
+        pointer-events: none;
+        animation: bubbleFloat 25s linear infinite reverse;
+      }
+
+      @keyframes bubbleFloat {
+        0% {
+          transform: translateX(0);
+        }
+
+        100% {
+          transform: translateX(-200px);
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        53%,
+        80%,
+        100% {
+          transform: translate3d(0, 0, 0);
+        }
+
+        40%,
+        43% {
+          transform: translate3d(0, -8px, 0);
+        }
+
+        70% {
+          transform: translate3d(0, -4px, 0);
+        }
+
+        90% {
+          transform: translate3d(0, -2px, 0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-50px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes fadeInRight {
+        from {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes rotateSlow {
+        from {
+          transform: rotate(0deg);
+        }
+
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .stagger-1 {
+        animation-delay: 0.1s;
+      }
+
+      .stagger-2 {
+        animation-delay: 0.2s;
+      }
+
+      .stagger-3 {
+        animation-delay: 0.3s;
+      }
+
+      .stagger-4 {
+        animation-delay: 0.4s;
+      }
+
+      .opacity-0 {
+        opacity: 0;
       }
     </style>
+    <!-- <?!= include('script'); ?> -->
   </head>
-  <body>
-    <img src="icons/512.png" alt="Sparkles Logo" width="96" height="96" />
-    <h1>Sparkles Mount Ommaney</h1>
-    <p>Launch the Sparkles Mount Ommaney App.</p>
-    <button id="openAppBtn">Open App Now.</button>
+
+  <body class="bg-white text-gray-800 antialiased leading-normal">
+    <!-- Loading Screen -->
+    <div
+      id="loading-screen"
+      class="fixed inset-0 bg-white z-50 flex items-center justify-center"
+    >
+      <div class="text-center">
+        <div class="mb-4 animate-bounce-slow">
+          <img
+            src="https://static.readdy.ai/image/07256f542ea79a1874b1582d34930508/30f97d89b0b4886ba0233a5da629aa42.png"
+            alt="Sparkles Car Wash Logo"
+            class="h-16 mx-auto"
+          />
+        </div>
+        <div class="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div
+            id="progress-bar"
+            class="h-full bg-gradient-to-r from-green-400 to-blue-500 rounded-full w-0 transition-all duration-700"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navbar -->
+    <header class="sticky-header fixed top-0 left-0 right-0 z-40 px-4 py-3">
+      <nav class="flex items-center justify-between max-w-7xl mx-auto">
+        <div class="flex items-center space-x-3">
+          <img
+            src="https://static.readdy.ai/image/07256f542ea79a1874b1582d34930508/30f97d89b0b4886ba0233a5da629aa42.png"
+            alt="Sparkles Car Wash Logo"
+            class="h-8"
+          />
+          <span class="font-bold text-lg bname">Sparkles Mount Ommaney</span>
+        </div>
+        <div class="hidden md:flex items-center space-x-6">
+          <a href="#home" class="text-gray-700 hover:text-gray-900">Home</a>
+          <a href="#services" class="text-gray-700 hover:text-gray-900"
+            >Services</a
+          >
+          <!-- <a href="#pricing" class="text-gray-700 hover:text-gray-900">Pricing</a> -->
+          <a href="#booking" class="text-gray-700 hover:text-gray-900">Book</a>
+          <a href="#location" class="text-gray-700 hover:text-gray-900"
+            >Location</a
+          >
+        </div>
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-md">
+          <i class="ri-menu-line ri-lg"></i>
+        </button>
+        <a
+          href="#booking"
+          class="btn hidden md:inline-block bg-blue-600 text-white px-4 py-2 !rounded-button font-semibold hover:scale-105"
+          >Book Now</a
+        >
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden bg-white md:hidden shadow-md">
+          <ul class="flex flex-col p-4 space-y-2">
+            <li><a href="#home" class="block hover:text-blue-600">Home</a></li>
+            <li>
+              <a href="#booking" class="block hover:text-blue-600">Book</a>
+            </li>
+            <!-- <li><a href="#pricing" class="block hover:text-blue-600">Pricing</a></li> -->
+            <li>
+              <a href="#services" class="block hover:text-blue-600">Services</a>
+            </li>
+            <li>
+              <a href="#contact" class="block hover:text-blue-600">Contact</a>
+            </li>
+            <li>
+              <a href="#location" class="block hover:text-blue-600">Location</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main class="pt-20">
+      <!-- HERO / SLIDER -->
+      <section id="home" class="relative">
+        <div class="swiper mySwiper h-[60vh] md:h-[72vh]">
+          <div class="swiper-wrapper h-full">
+            <div
+              class="swiper-slide hero-slide flex items-center justify-center text-center text-white"
+              style="
+                background-image: linear-gradient(
+                    rgba(0, 0, 0, 0.35),
+                    rgba(0, 0, 0, 0.35)
+                  ),
+                  url('https://images.unsplash.com/photo-1760528586235-2a3225e709ff?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwcm9maWxlLXBhZ2V8MXx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=600');
+              "
+            >
+              <div class="max-w-3xl mx-auto px-6">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-4">
+                  Fast. Friendly. Sparkling Clean.
+                </h1>
+                <p class="text-lg md:text-2xl mb-8">
+                  Premium car wash services at Mount Ommaney — book online in
+                  seconds.
+                </p>
+                <a
+                  href="#booking"
+                  class="inline-block bg-white text-blue-600 px-6 py-3 rounded-full font-semibold"
+                  >Book Online</a
+                >
+              </div>
+            </div>
+
+            <div
+              class="swiper-slide hero-slide flex items-center justify-center text-center text-white"
+              style="
+                background-image: linear-gradient(
+                    rgba(0, 0, 0, 0.35),
+                    rgba(0, 0, 0, 0.35)
+                  ),
+                  url('https://images.unsplash.com/photo-1759666765482-7e359ba3a5a1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwcm9maWxlLXBhZ2V8M3x8fGVufDB8fHx8fA%3D%3D');
+              "
+            >
+              <div class="max-w-3xl mx-auto px-6">
+                <h2 class="text-3xl md:text-5xl font-extrabold mb-4">
+                  Eco-friendly Products
+                </h2>
+                <p class="text-lg md:text-2xl mb-8">
+                  Gentle on your car and the planet.
+                </p>
+                <a
+                  href="#services"
+                  class="inline-block bg-white text-blue-600 px-6 py-3 rounded-full font-semibold"
+                  >View Services</a
+                >
+              </div>
+            </div>
+
+            <div
+              class="swiper-slide hero-slide flex items-center justify-center text-center text-white"
+              style="
+                background-image: linear-gradient(
+                    rgba(0, 0, 0, 0.35),
+                    rgba(0, 0, 0, 0.35)
+                  ),
+                  url('https://images.unsplash.com/photo-1759666765533-9545aa48856d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwcm9maWxlLXBhZ2V8NHx8fGVufDB8fHx8fA%3D%3D');
+              "
+            >
+              <div class="max-w-3xl mx-auto px-6">
+                <h2 class="text-3xl md:text-5xl font-extrabold mb-4">
+                  VIP Detailing
+                </h2>
+                <p class="text-lg md:text-2xl mb-8">
+                  Paint protection, ceramic coating and more.
+                </p>
+                <!-- <a href="#pricing" class="inline-block bg-white text-blue-600 px-6 py-3 rounded-full font-semibold">See
+                Pricing</a> -->
+              </div>
+            </div>
+          </div>
+          <!-- navigation -->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </section>
+
+      <section id="about" class="py-20 px-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-16">
+            <h2
+              class="text-4xl font-bold text-secondary mb-4 opacity-0 animate-fade-in-up"
+            >
+              Why Choose Sparkles Mount Ommaney?
+            </h2>
+            <p
+              class="text-xl text-gray-600 opacity-0 animate-fade-in-up stagger-1"
+            >
+              Experience the difference with our premium car care services
+            </p>
+          </div>
+          <div class="grid md:grid-cols-3 gap-12">
+            <div class="text-center opacity-0 animate-fade-in-up stagger-1">
+              <div
+                class="w-20 h-20 flex items-center justify-center bg-primary/10 rounded-full mx-auto mb-6 animate-float"
+              >
+                <i class="ri-shield-check-line ri-3x text-secondary"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-secondary mb-4">
+                100% Satisfaction Guarantee
+              </h3>
+              <p class="text-gray-600">
+                We stand behind our work with a complete satisfaction guarantee.
+                If you're not happy, we'll make it right.
+              </p>
+            </div>
+            <div class="text-center opacity-0 animate-fade-in-up stagger-2">
+              <div
+                class="w-20 h-20 flex items-center justify-center bg-primary/10 rounded-full mx-auto mb-6 animate-float"
+              >
+                <i class="ri-leaf-line ri-3x text-secondary"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-secondary mb-4">
+                Eco-Friendly Products
+              </h3>
+              <p class="text-gray-600">
+                We use only environmentally safe, biodegradable cleaning
+                products that are gentle on your car and the planet.
+              </p>
+            </div>
+            <div class="text-center opacity-0 animate-fade-in-up stagger-3">
+              <div
+                class="w-20 h-20 flex items-center justify-center bg-primary/10 rounded-full mx-auto mb-6 animate-float"
+              >
+                <i class="ri-time-line ri-3x text-secondary"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-secondary mb-4">
+                Quick &amp; Convenient
+              </h3>
+              <p class="text-gray-600">
+                Fast, efficient service that fits your schedule. Most services
+                completed in under 60 minutes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sparkles Car Wash Services Section -->
+      <section
+        id="services"
+        class="bg-gradient-to-b from-blue-50 to-white py-16 px-6 font-sans text-gray-900"
+      >
+        <div class="max-w-7xl mx-auto text-center mb-12">
+          <h2 class="text-4xl font-bold text-[#0056A8] mb-2">
+            Our Car Wash Packages
+          </h2>
+          <p class="text-gray-600">
+            Professional, friendly, and reliable detailing for every vehicle
+            type
+          </p>
+        </div>
+
+        <!-- Row 1: Wash to Interior Detail -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <!-- 1. Wash -->
+          <div
+            class="bg-white rounded-2xl shadow-lg border-t-4 border-[#FFD100] p-6 hover:shadow-xl transition"
+          >
+            <h3 class="text-xl font-bold text-[#0056A8] mb-2">
+              1. Wash (Exterior)
+            </h3>
+            <ul class="text-sm text-gray-700 mb-4 space-y-1">
+              <li>• Hand Wash & Chamois Dry</li>
+              <li>• Tyre Shine, Wheel Clean</li>
+              <li>• Windows Clean (Outside)</li>
+            </ul>
+            <p class="font-semibold text-[#0056A8]">
+              Sedan $40 | Wagon $45 | SUV/4WD $50
+            </p>
+          </div>
+
+          <!-- 2. Mini-Detail -->
+          <div
+            class="bg-white rounded-2xl shadow-lg border-t-4 border-[#FFD100] p-6 hover:shadow-xl transition"
+          >
+            <h3 class="text-xl font-bold text-[#0056A8] mb-2">
+              2. Mini-Detail (In & Out)
+            </h3>
+            <ul class="text-sm text-gray-700 mb-4 space-y-1">
+              <li>• Wash & Vacuum</li>
+              <li>• Tyre Shine & Window Clean (In & Out)</li>
+              <li>• Dashboard, Console & Interior Wiped</li>
+              <li>• Door Well Wiped</li>
+              <li>• Add-on Seat Wipe $25</li>
+            </ul>
+            <p class="font-semibold text-[#0056A8]">
+              Sedan $65 | Wagon $80 | SUV/4WD $85
+            </p>
+          </div>
+
+          <!-- 3. Detail Polish -->
+          <div
+            class="bg-white rounded-2xl shadow-lg border-t-4 border-[#FFD100] p-6 hover:shadow-xl transition"
+          >
+            <h3 class="text-xl font-bold text-[#0056A8] mb-2">
+              3. Detail Polish
+            </h3>
+            <ul class="text-sm text-gray-700 mb-4 space-y-1">
+              <li>• Wash, Vacuum & Tyre Shine</li>
+              <li>• Window Clean (In & Out)</li>
+              <li>• Dashboard, Console & Interior Wiped</li>
+              <li>• Door Well Wiped & Hand Polishing</li>
+              <li>• Add-on Seat Wipe $25</li>
+            </ul>
+            <p class="font-semibold text-[#0056A8]">
+              Sedan $100 | Wagon $125 | SUV/4WD $130
+            </p>
+          </div>
+
+          <!-- 4. Interior Detail -->
+          <div
+            class="bg-white rounded-2xl shadow-lg border-t-4 border-[#FFD100] p-6 hover:shadow-xl transition"
+          >
+            <h3 class="text-xl font-bold text-[#0056A8] mb-2">
+              4. Interior Detail
+            </h3>
+            <ul class="text-sm text-gray-700 mb-4 space-y-1">
+              <li>
+                • Full Interior Vacuum & Shampoo (Seat, Carpet, Boot, Mats)
+              </li>
+              <li>• All Compartments Detailed</li>
+              <li>• Leather Seats Cleaned & Conditioned</li>
+              <li>• All Interior Detailed & Shined</li>
+            </ul>
+            <p class="font-semibold text-[#0056A8]">
+              Sedan $220 | Wagon $250 | SUV/4WD $270
+            </p>
+          </div>
+        </div>
+
+        <!-- Row 2: Full Detail & Premium Detail -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
+          <!-- 5. Full Detail -->
+          <div
+            class="bg-white rounded-2xl shadow-lg border-t-4 border-[#FFD100] p-6 hover:shadow-xl transition"
+          >
+            <h3 class="text-xl font-bold text-[#0056A8] mb-2">
+              5. Full Detail (Pre-Sale)
+            </h3>
+            <ul class="text-sm text-gray-700 mb-4 space-y-1">
+              <li>• Wash & Hand Polishing</li>
+              <li>• Tyre Shine & Window Clean (In & Out)</li>
+              <li>• Dashboard, Console & Interior Wiped</li>
+              <li>• Full Interior Vacuum & Shampoo</li>
+              <li>• Leather Seats Cleaned & Conditioned</li>
+              <li>• Bugs & Tar Removed</li>
+              <li>• Engine Bay Detailing (Upon Request)</li>
+            </ul>
+            <p class="font-semibold text-[#0056A8]">
+              Sedan $280 | Wagon $300 | SUV/4WD $330
+            </p>
+          </div>
+
+          <!-- 6. Premium Detail -->
+          <div
+            class="bg-white rounded-2xl shadow-lg border-t-4 border-[#FFD100] p-6 hover:shadow-xl transition"
+          >
+            <h3 class="text-xl font-bold text-[#0056A8] mb-2">
+              6. Premium Detail (Pre-Sale)
+            </h3>
+            <ul class="text-sm text-gray-700 mb-4 space-y-1">
+              <li>• Wash & Hand Polishing</li>
+              <li>• Tyre Shine & Window Clean (In & Out)</li>
+              <li>• Dashboard, Console & Interior Wiped</li>
+              <li>• Full Interior Vacuum & Shampoo</li>
+              <li>• Leather Seats Cleaned & Conditioned</li>
+              <li>• Bugs & Tar Removed</li>
+              <li>• Engine Bay Detailing (Upon Request)</li>
+              <li>• + Cut & Polish</li>
+            </ul>
+            <p class="font-semibold text-[#0056A8]">
+              Sedan $400 | Wagon $480 | SUV/4WD $495
+            </p>
+          </div>
+        </div>
+
+        <!-- Row 3: Paint Protection -->
+        <div
+          class="bg-[#0056A8] text-white rounded-2xl p-8 shadow-lg text-center mb-12"
+        >
+          <h3 class="text-2xl font-bold mb-2">Ceramic Paint Protection</h3>
+          <p class="text-lg">
+            From <span class="text-[#FFD100] font-bold">$500</span>
+          </p>
+        </div>
+
+        <!-- Row 4: Extra Services -->
+        <div
+          class="bg-white rounded-2xl shadow-lg border-t-4 border-[#FFD100] p-8 hover:shadow-xl transition text-center"
+        >
+          <h3 class="text-2xl font-bold text-[#0056A8] mb-4">Extra Services</h3>
+          <p class="text-sm text-gray-700 mb-2">
+            Air-Con Anti-Bacterial Treatment — $40
+          </p>
+          <p class="text-sm text-gray-700 mb-2">Hand Polishing — From $55</p>
+          <p class="text-sm text-gray-700 mb-2">Seat Wipes — From $25</p>
+          <p class="text-sm text-gray-700 mb-2">Dog Hair Removal — From $20</p>
+          <p class="text-sm text-gray-700 mb-2">
+            Leather Clean & Condition — From $60
+          </p>
+          <p class="text-sm text-gray-700 mt-4 italic">
+            * Extra large or excessively dirty vehicles may cost extra.
+          </p>
+        </div>
+      </section>
+
+      <!-- BOOKING -->
+      <section id="booking" class="py-16 px-4 bg-white">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold mb-2">Book Your Service</h2>
+            <p class="text-gray-600">
+              Schedule your car wash appointment in just a few clicks
+            </p>
+          </div>
+
+          <div class="bg-blue-50 p-6 rounded-2xl border">
+            <form id="bookingForm" class="grid md:grid-cols-2 gap-4">
+              <div class="space-y-2">
+                <label for="full_name" class="block text-sm font-medium"
+                  >Full Name</label
+                >
+                <input
+                  type="text"
+                  id="full_name"
+                  name="full_name"
+                  class="w-full px-4 py-3 border rounded-lg"
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
+              <div class="space-y-2">
+                <label for="phone_number" class="block text-sm font-medium"
+                  >Phone Number</label
+                >
+                <input
+                  type="tel"
+                  id="phone_number"
+                  name="phone_number"
+                  class="w-full px-4 py-3 border rounded-lg"
+                  placeholder="Enter your phone number"
+                  required
+                />
+              </div>
+              <div class="space-y-2">
+                <label for="email" class="block text-sm font-medium"
+                  >Email</label
+                >
+                <input
+                  type="text"
+                  id="email"
+                  name="email"
+                  class="w-full px-4 py-3 border rounded-lg"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <div class="space-y-2">
+                <label for="preferred_date" class="block text-sm font-medium"
+                  >Preferred Date</label
+                >
+                <input
+                  type="date"
+                  id="preferred_date"
+                  name="preferred_date"
+                  class="w-full px-4 py-3 border rounded-lg"
+                  required
+                />
+              </div>
+              <div class="space-y-2">
+                <label for="preferred_time" class="block text-sm font-medium"
+                  >Preferred Time</label
+                >
+                <select
+                  id="preferred_time"
+                  name="preferred_time"
+                  class="w-full px-4 py-3 border rounded-lg"
+                  required
+                >
+                  <option value="">Select time slot</option>
+                  <option value="09:00">9:00 AM</option>
+                  <option value="10:00">10:00 AM</option>
+                  <option value="11:00">11:00 AM</option>
+                  <option value="12:00">12:00 PM</option>
+                  <option value="13:00">1:00 PM</option>
+                  <option value="14:00">2:00 PM</option>
+                  <option value="15:00">3:00 PM</option>
+                  <option value="16:00">4:00 PM</option>
+                  <option value="17:00">5:00 PM</option>
+                </select>
+              </div>
+
+              <div class="space-y-2">
+                <label
+                  for="vehicle_type"
+                  class="block text-sm font-medium text-gray-700"
+                  >Vehicle Type</label
+                >
+                <select
+                  id="vehicle_type"
+                  name="vehicle_type"
+                  class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#0056A8]"
+                  required
+                >
+                  <option value="">Loading vehicle types...</option>
+                </select>
+              </div>
+
+              <!-- Service Package -->
+              <div class="space-y-2">
+                <label
+                  for="service_package"
+                  class="block text-sm font-medium text-gray-700"
+                  >Service Package</label
+                >
+                <select
+                  id="service_package"
+                  name="service_package"
+                  class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#0056A8]"
+                  required
+                >
+                  <option value="">Loading service packages...</option>
+                </select>
+              </div>
+              <div class="md:col-span-2">
+                <label for="special_requests" class="block text-sm font-medium"
+                  >Special Requests (Optional)</label
+                >
+                <textarea
+                  id="special_requests"
+                  name="special_requests"
+                  class="w-full px-4 py-3 border rounded-lg"
+                  rows="3"
+                  maxlength="500"
+                  placeholder="Any special requests or notes..."
+                ></textarea>
+                <div class="text-xs text-gray-500 mt-1">
+                  Maximum 500 characters
+                </div>
+              </div>
+
+              <div class="md:col-span-2">
+                <button
+                  type="submit"
+                  id="submit-btn"
+                  class="w-full bg-blue-600 text-white px-4 py-3 rounded-lg font-semibold flex items-center justify-center"
+                >
+                  <span id="submit-text">Book Now</span>
+                  <div
+                    id="submit-spinner"
+                    class="loading-spinner ml-3 hidden"
+                  ></div>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Toast Notifications -->
+      <div
+        id="toast-success"
+        class="position-fixed top-50 start-50 translate-middle bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg hidden"
+      >
+        Booking submitted successfully!
+      </div>
+      <div
+        id="toast-fail"
+        class="fixed bottom-5 right-5 bg-red-600 text-white px-4 py-2 rounded-lg shadow-lg hidden"
+      >
+        Booking failed. Please try again.
+      </div>
+
+      <!-- PRICING & OTHER SECTIONS (kept largely similar) -->
+      <!-- <section id="pricing" class="py-12 px-4 bg-gray-50">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-8">
+          <h2 class="text-2xl font-bold mb-2">Pricing Plans</h2>
+          <p class="text-gray-600">Transparent pricing with no hidden fees</p>
+        </div>
+        <div class="table-scroll bg-white rounded-xl shadow overflow-hidden">
+          <table class="w-full text-left">
+            <thead class="bg-blue-600 text-white">
+              <tr>
+                <th class="px-6 py-3">Service</th>
+                <th class="px-6 py-3">What's Included</th>
+                <th class="px-6 py-3">Duration</th>
+                <th class="px-6 py-3">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b">
+                <td class="px-6 py-4 font-semibold">Basic Wash</td>
+                <td class="px-6 py-4 text-gray-600">Exterior wash, rinse, dry</td>
+                <td class="px-6 py-4">15 minutes</td>
+                <td class="px-6 py-4 font-bold text-blue-600">$25</td>
+              </tr>
+              <tr class="border-b">
+                <td class="px-6 py-4 font-semibold">Premium Wash</td>
+                <td class="px-6 py-4 text-gray-600">Exterior wash, wax, interior vacuum</td>
+                <td class="px-6 py-4">30 minutes</td>
+                <td class="px-6 py-4 font-bold text-blue-600">$45</td>
+              </tr>
+              <tr class="border-b">
+                <td class="px-6 py-4 font-semibold">Deluxe Detail</td>
+                <td class="px-6 py-4 text-gray-600">Full wash, wax, interior detail</td>
+                <td class="px-6 py-4">60 minutes</td>
+                <td class="px-6 py-4 font-bold text-blue-600">$85</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-semibold">VIP Package</td>
+                <td class="px-6 py-4 text-gray-600">Complete detailing, paint protection</td>
+                <td class="px-6 py-4">90 minutes</td>
+                <td class="px-6 py-4 font-bold text-blue-600">$150</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section> -->
+
+      <section
+        class="py-20 px-6 bg-secondary text-white relative floating-bubbles"
+      >
+        <div class="max-w-4xl mx-auto text-center">
+          <h2
+            class="bname text-4xl font-bold mb-6 opacity-0 animate-fade-in-up"
+          >
+            Ready to Give Your Car the Treatment It Deserves?
+          </h2>
+          <p class="bname text-xl mb-8 opacity-0 animate-fade-in-up stagger-1">
+            Book your appointment today and experience the Sparkles Mount
+            Ommaney difference
+          </p>
+          <!-- <button class="bg-blue-600 text-white  px-8 py-4 !rounded-button font-semibold text-lg whitespace-nowrap opacity-0 animate-fade-in-up stagger-2 hover:scale-105 transition-all duration-300 hover:shadow-xl">
+        Book Online Now
+        </button> -->
+          <a
+            href="#booking"
+            class="btn hidden md:inline-block bg-blue-600 text-white px-4 py-2 !rounded-button font-semibold hover:scale-105"
+            >Book Now</a
+          >
+        </div>
+      </section>
+
+      <!-- LOCATION & FOOTER -->
+      <!-- <section id="location" class="py-12 px-4 bg-white">
+      <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-2xl font-semibold mb-3">Find Us</h3>
+          <p class="text-gray-600 mb-4">171 Dandenong Road, Mount Ommaney QLD 4074, Australia</p>
+          <p class="text-gray-600">Phone: +61 2 9876 5432</p>
+        </div>
+        <div class="h-64 rounded-2xl overflow-hidden bg-gray-200"
+          style="background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png'); background-size: cover; background-position: center;">
+        </div>
+      </div>
+    </section> -->
+      <section id="location" class="py-20 px-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-16">
+            <h2
+              class="text-4xl font-bold text-secondary mb-4 opacity-0 animate-fade-in-up"
+            >
+              Find Us
+            </h2>
+            <p
+              class="text-xl text-gray-600 opacity-0 animate-fade-in-up stagger-1"
+            >
+              Visit our Mount Ommaney location for premium car wash services
+            </p>
+          </div>
+          <div class="grid lg:grid-cols-2 gap-12 items-start">
+            <div class="opacity-0 animate-fade-in-left">
+              <div class="bg-gray-50 p-8 rounded-2xl">
+                <h3 class="text-2xl font-semibold text-secondary mb-6">
+                  Our Location
+                </h3>
+                <div class="space-y-4 mb-8">
+                  <div class="flex items-start">
+                    <div
+                      class="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full mr-4 mt-1"
+                    >
+                      <i class="ri-map-pin-line text-secondary"></i>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-secondary">Address</h4>
+                      <p class="text-gray-600">
+                        171 Dandenong Road<br />Mount Ommaney QLD 4074<br />Australia
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <div
+                      class="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full mr-4 mt-1"
+                    >
+                      <i class="ri-phone-line text-secondary"></i>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-secondary">Phone</h4>
+                      <p class="text-gray-600">0455-435-383</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <div
+                      class="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full mr-4 mt-1"
+                    >
+                      <i class="ri-time-line text-secondary"></i>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-secondary">
+                        Operating Hours
+                      </h4>
+                      <p class="text-gray-600">
+                        Mon-Fri: 8:30 AM - 5:30 PM<br />
+                        Saturday: 8:30 AM - 5:30 PM<br />
+                        Sunday: 8:30 AM - 5:30 PM
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="opacity-0 animate-fade-in-right">
+              <div
+                class="bg-gray-200 rounded-2xl overflow-hidden h-96 relative"
+                style="
+                  background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png');
+                  background-size: cover;
+                  background-position: center;
+                "
+              >
+                <div class="absolute inset-0 bg-black/20"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div
+                    class="bg-white/90 backdrop-blur-sm px-6 py-4 rounded-xl text-center"
+                  >
+                    <div
+                      class="w-12 h-12 flex items-center justify-center bg-secondary rounded-full mx-auto mb-3"
+                    >
+                      <i class="ri-map-pin-fill text-white ri-lg"></i>
+                    </div>
+                    <h4 class="font-semibold text-secondary mb-1">
+                      Sparkles Mount Ommaney
+                    </h4>
+                    <p class="text-sm text-gray-600">171 Dandenong Road</p>
+                    <button
+                      id="view-maps"
+                      onclick="openDirections();"
+                      class="mt-3 bg-primary text-secondary px-4 py-2 !rounded-button text-sm font-medium hover:scale-105 transition-all duration-300"
+                    >
+                      View on Maps
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="bg-[#0056A8] text-white rounded-2xl shadow-lg text-center"
+              >
+                <button
+                  onclick="openDirections()"
+                  class="w-full bg-secondary text-white px-3 py-1 !rounded-button font-semibold whitespace-nowrap hover:bg-secondary/90 transition-all duration-300 hover:shadow-lg flex items-center justify-center"
+                >
+                  <i class="ri-navigation-line mr-2"></i>
+                  Get Directions
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="bg-gray-900 text-white py-8 px-4 mt-8">
+        <div class="max-w-6xl mx-auto text-center">
+          <p>© 2025 Sparkles Mount Ommaney. All rights reserved.</p>
+        </div>
+      </footer>
+    </main>
+
+    <!-- Back to top -->
+    <button
+      id="back-to-top"
+      class="fixed bottom-6 right-6 w-12 h-12 bg-blue-600 text-white rounded-full shadow-lg opacity-0 invisible transition-all"
+    >
+      <i class="ri-arrow-up-line"></i>
+    </button>
 
     <script>
-      const APP_URL = "https://script.google.com/macros/s/AKfycbxNSH10hbqT6PR3maO9VFoCG_huLf19TSxSM7FskuHAUcjK0DBLoECIj8JCQ5fpIq3Bxw/exec";
+      // Call server functions when DOM is loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        google.script.run
+          .withSuccessHandler(populateVehicleTypes)
+          .getVehicleTypes();
+        google.script.run
+          .withSuccessHandler(populateServicePackages)
+          .getServicePackages();
+      });
+
+      // Initialize Swiper
+      const swiper = new Swiper(".mySwiper", {
+        loop: true,
+        autoplay: { delay: 5000, disableOnInteraction: false },
+        pagination: { el: ".swiper-pagination", clickable: true },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+
+      // Loading screen simulation (hide when ready)
+      window.addEventListener("load", () => {
+        const bar = document.getElementById("progress-bar");
+        bar.style.width = "100%";
+        setTimeout(() => {
+          document.getElementById("loading-screen").style.display = "none";
+        }, 700);
+      });
+
+      // Navbar mobile toggle
+      const hamburger = document.getElementById("mobile-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      hamburger.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+
+      // Back to top logic
+      const backToTop = document.getElementById("back-to-top");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+          backToTop.classList.remove("opacity-0", "invisible");
+          backToTop.classList.add("opacity-100");
+        } else {
+          backToTop.classList.add("opacity-0", "invisible");
+          backToTop.classList.remove("opacity-100");
+        }
+      });
+      backToTop.addEventListener("click", () =>
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      );
+
+      // Booking form submit -> google.script.run
+      const form = document.getElementById("booking-form");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById("submit-btn");
+        const spinner = document.getElementById("submit-spinner");
+        const submitText = document.getElementById("submit-text");
+        const toastSuccess = document.getElementById("toast-success");
+        const toastFail = document.getElementById("toast-fail");
+
+        submitBtn.disabled = true;
+        spinner.classList.remove("hidden");
+
+        const data = Object.fromEntries(new FormData(form).entries());
+        // console.log(data);
+        // Basic client-side validation example
+        if (!data["full_name"] || !data["phone-number"]) {
+          alert("Please fill name and phone number.");
+          submitBtn.disabled = false;
+          spinner.classList.add("hidden");
+          return;
+        }
+
+        google.script.run
+          .withSuccessHandler((res) => {
+            spinner.classList.add("hidden");
+            submitBtn.disabled = false;
+            if (res && res.success) {
+              submitText.innerText = "Booked ✓";
+              form.reset();
+              setTimeout(() => (submitText.innerText = "Book Now"), 3000);
+              showToast(toastSuccess);
+            } else {
+              showToast(toastFail);
+            }
+          })
+          .withFailureHandler((err) => {
+            spinner.classList.add("hidden");
+            submitBtn.disabled = false;
+            console.error(err);
+            alert("An error occurred. Please try again later.");
+          })
+          .saveBooking(data);
+      });
+
+      function showToast(toastEl) {
+        toastEl.classList.remove("hidden");
+        toastEl.classList.add("animate-fade-in-up");
+        setTimeout(() => {
+          toastEl.classList.add("hidden");
+          toastEl.classList.remove("animate-fade-in-up");
+        }, 3000);
+      }
+
+      // Mobile menu toggle
+      const mobileBtn = document.getElementById("mobile-menu-btn");
+      mobileBtn &&
+        mobileBtn.addEventListener("click", () => {
+          // simple toggle: show/hide nav links
+          const nav = document.querySelector("nav");
+          nav.classList.toggle("bg-white");
+        });
+
+      function openDirections() {
+        const address = "171 Dandenong Road, Mount Ommaney QLD 4074, Australia";
+        const encodedAddress = encodeURIComponent(address);
+        const mapsUrl =
+          "https://www.google.com/maps/dir/?api=1&destination=171 Dandenong Road, Mount Ommaney QLD 4074, Australia";
+        window.open(mapsUrl, "_blank");
+      }
+
+      // Populate Vehicle Type dropdown
+      function populateVehicleTypes(types) {
+        const vehicleSelect = document.getElementById("vehicle-type");
+        vehicleSelect.innerHTML =
+          '<option value="">Select vehicle type</option>';
+        types.forEach((type) => {
+          const opt = document.createElement("option");
+          opt.value = type;
+          opt.textContent = type;
+          vehicleSelect.appendChild(opt);
+        });
+      }
+
+      // Populate Service Package dropdown
+      function populateServicePackages(services) {
+        // console.log(services);
+        const serviceSelect = document.getElementById("service-package");
+        serviceSelect.innerHTML =
+          '<option value="">Select service package</option>';
+        services.forEach((svc) => {
+          const opt = document.createElement("option");
+          opt.value = svc;
+          opt.textContent = svc;
+          serviceSelect.appendChild(opt);
+        });
+      }
 
       // Service Worker registration
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker
           .register("service-worker.js")
-          .then((reg) => console.log("✅ Service Worker registered:", reg.scope))
+          .then((reg) =>
+            console.log("✅ Service Worker registered:", reg.scope)
+          )
           .catch((err) => console.warn("⚠️ SW registration failed:", err));
       }
 
@@ -80,17 +1318,16 @@
         });
       });
 
-      // Open GAS Web App
-      document.getElementById("openAppBtn").addEventListener("click", () => {
-        window.location.href = APP_URL;
-      });
-
       // Optional: show hint for iOS users
       if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
         setTimeout(() => {
-          alert("To install Sparkles, tap the Share icon (⬆️) then ‘Add to Home Screen’.");
+          alert(
+            "To install Sparkles, tap the Share icon (⬆️) then ‘Add to Home Screen’."
+          );
         }, 2000);
       }
     </script>
+
+    <script src="app.js"></script>
   </body>
 </html>
